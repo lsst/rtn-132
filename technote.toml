@@ -1,0 +1,23 @@
+[technote]
+id = "RTN-132"
+series_id = "RTN"
+canonical_url = "https://rtn-132.lsst.io"
+github_url = "https://github.com/lsst/rtn-132"
+github_default_branch = "main"
+date_created = 2026-09-11T13:13:12Z
+organization.name = "NSF-DOE Vera C. Rubin Observatory"
+organization.ror = "https://ror.org/048g3cy84"
+license.id = "CC-BY-4.0"
+
+[technote.status]
+state = "draft"
+
+[[technote.authors]]
+name.given = "Samuel"
+name.family = "Mesquita"
+internal_id = "mesquitas"
+orcid = "https://orcid.org/0009-0000-7800-0922"
+[[technote.authors.affiliations]]
+name = "Université Grenoble Alpes, CNRS/IN2P3, LPSC"
+internal_id = "IN2P3-LPSC"
+address = "Grenoble"
