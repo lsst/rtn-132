@@ -21,3 +21,9 @@ orcid = "https://orcid.org/0009-0000-7800-0922"
 name = "Université Grenoble Alpes, CNRS/IN2P3, LPSC"
 internal_id = "IN2P3-LPSC"
 address = "Grenoble"
+
+[[technote.authors]]
+name.given = "Cyrille"
+name.family = "Doux"
+internal_id = "doux"
+orcid = "https://orcid.org/0000-0003-4480-0096"
