@@ -40,4 +40,4 @@ When you push changes to a another branch, a preview of the technote is publishe
 
 The main content of this technote is in `index.md` (a Markdown file parsed as [CommonMark/MyST](https://myst-parser.readthedocs.io/en/latest/index.html)).
 Metadata and configuration is in the `technote.toml` file.
-For guidance on creating content and information about specifying metadata and configuration, see the Documenteer documentation: https://documenteer.lsst.io/technotes.
+For guidance on creating content and information about specifying metadata and configuration, see the Documenteer documentation: https://documenlsteer.lsst.io/technotes.

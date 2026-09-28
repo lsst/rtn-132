@@ -1,7 +1,7 @@
 # Unrecognized blends in LSST DP1 and DP2 from the comparison with Euclid and HST
 
 ```{abstract}
-We estimate the fraction of unrecognized blends in DP1 and DP2 data from the comparison with Euclid and HST
+We estimate the fraction of unrecognized blends in DP1 and DP2 data from the comparison with Euclid and HST in ECDFS
 ```
 
 ## Add content here
