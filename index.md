@@ -79,9 +79,66 @@ $p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is
 Low $S_\text{b}$ blend.
 ```
 
+```{figure} ./assets/low_blending_entropy.png
+:alt: High Sb
+
+High $S_\text{b}$ blend.
+```
+
 <!-- **those are dp1 image, make dp2 images** -->
 
-However, the blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the `ugrizy` bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands `riz` and `VIS` for the LSST-Euclid comparison and `i` and `F814W` for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems and then applied to every object in the LSST DP datasets.
+However, the blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid $\mathrm{VIS}$ band and the HST $\mathrm{F814W}$ band and making a fit to be able to compare them. We chose to construct a fit on the following bands $r i z$ and $\mathrm{VIS}$ for the LSST-Euclid comparison and $i$ and $\mathrm{F814W}$ for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their <span style="color: red;"> photometry is cleaner than multiple-to-one systems</span> and then applied to every object in the LSST DP datasets.
+
+For Euclid, we use the following fit on the colors defined as:
+
+$$
+\mathrm{VIS}_{\mathrm{fit}} = r_{\mathrm{term}} + (c_{g-r} \cdot (g - r)) + (c_{r-i} \cdot (r - i))
+$$
+
+Since $\mathrm{VIS} \, \text{vs} \, r$ is linear by piece, we defined $r_{\mathrm{term}}$ as a piecewise linear function of $r$:
+
+- If $ r \leq 22 $\,:
+  $r_{\mathrm{term}} = a_0^{\mathrm{low}} + c_r^{\mathrm{low}} \cdot r$
+
+- If $ r > 22 $:
+  $\,r_{\mathrm{term}} = a_0^{\mathrm{high}} + c_r^{\mathrm{high}} \cdot r$
+  where we define $a_0^{\mathrm{high}} = a_0^{\mathrm{low}} + (c_r^{\mathrm{low}} - c_r^{\mathrm{high}}) \cdot 22$ to ensure continuity at $r = 22$.
+
+
+From the output, the fitted coefficients are:
+
+- $ a_0^{\text{low}} = 5.63488985 $
+- $ a_0^{\text{high}} = 3.943983072 $
+- $c_r^{\mathrm{low}} = 0.816332713$
+- $c_r^{\mathrm{high}} = 0.893192112$
+- $c_{g-r} = 0.00524349462$
+- $c_{r-i} = -0.874038224$
+
+```{figure} ./assets/plots/visfit_vs_vis.png
+:name: fig-visfit
+:alt: VIS fit vs VIS
+:width: 100%
+
+Verification of the VIS fit. The x-axis is the measured VIS magnitude from Euclid and the y-axis is the predicted VIS magnitude from the LSST DP2 photometry. The colorbar indicates the number count of objects in each bin. The red line is the $x=y$ line.
+```
+
+For HST, we use the following fit on the $i$-band defined as:
+$\mathrm{F814W}_{\mathrm{pred}} = c_0 + (c_{i} \cdot i)$
+
+From the output, the fitted coefficients are:
+- $ c_0 = -1.249 $
+- $ c_i = 1.005 $
+
+```{figure} ./assets/plots/f814wfit_vs_f814w.png
+:name: fig-hstfit
+:alt: F814W fit vs F814W
+:width: 100%
+
+Verification of the F814W fit. The x-axis is the measured F814W magnitude from HST and the y-axis is the predicted F814W magnitude from the LSST DP2 photometry. The colorbar indicates the number count of objects in each bin. The red line is the $x=y$ line.
+```
+
+{numref}`fig-visfit` and {numref}`fig-hstfit` show that the fits are <span style="color: red;"> good enough </span> to be used for the blending entropy computation.
+
 
 ## Results
 
