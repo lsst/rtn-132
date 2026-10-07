@@ -1,5 +1,7 @@
 # Unrecognized blends in LSST DP1 and DP2 from the comparison with Euclid and HST
 
+See the [Documenteer documentation](https://documenteer.lsst.io/technotes/index.html) for tips on how to write and configure your new technote.
+
 ```{abstract}
 Unrecognized blends, where the number of detected objects is smaller than the number of true sources, are a known issue in LSST data and a significant source of photometric error. In this technote, we present our methodology for identifying unrecognized blends in the LSST Data Preview 1 and Data Preview 2 (hereafter DP1 and DP2, respectively) datasets by comparing them with high-resolution space-based observations from the Euclid Q1 and Hubble Space Telescope (HST) in the Extended Chandra Deep Field South (ECDFS). By matching sources detected in the LSST data with those from the space telescopes, we quantify the fraction of sources that are blended in LSST but resolved in the space-based data. We find that up to 22% of sources in both DP1 and DP2 are unrecognized blends when compared to Euclid Q1 data at 23 < i-band magnitude < 24. When compared to HST data, the fraction of unrecognized blends reaches up to 40% for the same magnitude range. We finally use the blending entropy to quantify, for each of those unrecognized blends in the LSST data, how ambiguous its galaxy association is.
 ```
@@ -11,6 +13,7 @@ Unrecognized blends, where the number of detected objects is smaller than the nu
 The LSST DP datasets both have a pixel scale of 0.2 arcsec/pixel while the Euclid Q1 data has a pixel scale of 0.1 arcsec/pixel and HST has a pixel scale of 0.05 arcsec/pixel. -->
 
 
+Blending, where multiple sources overlap in the sky, is expected to be a significant source of measurement uncertainties in the Stage-IV surveys like LSST {cite}`Melchior21`. A way to study blending is to compare data from different telescopes with different resolutions and depths.
 
 The Extended Chandra Deep Field South (ECDFS) is a deep-sky survey field that has been observed by many telescopes at different wavelengths due to its low galactic obscuration {cite}`Lehmer05`. In this note we use imaging of the ECDFS from three facilities.
 
@@ -23,7 +26,7 @@ skymap = 'lsst_cells_v2'
 butler_cat = 'object'
 ```
 - **Euclid Q1:** The Euclid Quick Data Release 1 (Q1) {cite}`EuclidQ1` is an early release of Euclid imaging and spectroscopy over ~63 deg² in the three Euclid Deep Fields, one of which is the ECDFS. We use the VIS optical imaging which has a pixel scale of 0.1 arcsec/pixel.  We use the final MER (MERge) catalog from Euclid Q1, which merges the VIS and NISP space-based imaging with external ground-based data to produce the combined multi-band source catalog.
-- **HST:** The Hubble Space Telescope {cite}`HSTref` has also imaged the ECDFS, we use these data as high-resolution imaging with a pixel scale of 0.06 arcsec/pixel. We use the Hubble Legacy Fields (HLF) GOODS-South source catalog, which is a high-level science product derived from archival HST imaging.
+- **HST:** The Hubble Space Telescope has also imaged the ECDFS {cite}`HSTref`, we use these data as high-resolution imaging with a pixel scale of 0.06 arcsec/pixel. We use the Hubble Legacy Fields (HLF) GOODS-South source catalog, which is a high-level science product derived from archival HST imaging.
 
 
 <!-- `LSSTCam/runs/DRP/DP2/v30_0_8/DM-55060/stage3` -->
@@ -38,12 +41,6 @@ butler_cat = 'object'
 Top: One tenth of the detected galaxies in the ECDFS observed by LSST. The blue region corresponds to our region of study we chose this region to not have the single visits effects (lower magnitude detections and artifacts). The grey region is discarded due to the presence of single visits. The circle discrimnating the two regions has a radius on the sky of  2.1 degrees and centered around the coordinates RA=53.05, Dec=-28.15 degrees.
 Bottom: One tenth of the detected galaxies in the ECDFS observed by LSST, Euclid and HST.
 ```
-
-<!-- | | LSST DP2 | Euclid | HST |
-| --- | --- | --- | --- |
-| Number of total sources | 3,610,708 | 5,328,489 | 165,776 |
-| LSST DP2 data inside footprint | n/a | 2,416,305 | 33,240 |
-| Area $\left\lbrack\mathrm{deg}^2\right\rbrack$ | 43.35 | 15.53 | 0.18 | -->
 
 The Euclid ECDFS footprint has an area of ~15.53 deg$^2$ and contains a total of 5,328,489 galaxies detected in the VIS band and, in that same footprint, there are 2,416,305 objects detected in the LSST DP2 dataset.\
 The HST ECDFS footprint has of area 0.18 deg$^2$ and contains a total of 165,776 galaxies detected in the F814W band and, in that same footprint, there are 33,240 objects detected in the LSST DP2 dataset.
@@ -60,13 +57,12 @@ We match the sources detected in the LSST DP datasets with those from Euclid and
 2. Ellipse Overlap Test (EOT): For each element (object/galaxy) in each group, we check if the ellipses (computed from the semi-major and semi-minor axes and the position angle of the detection) of the elements overlap with the ellipses of the other elements. If they do, we consider them as matched and keep them as a group. If there is no overlap, we split the group into two subgroups and repeat the process until all elements in each group have overlapping ellipses.
 
 Adding the EOT step after the FoF matching makes our matching independant from the linking length choice. The result of this matching is a set of groups where each groups contains one or more objects and one or more galaxies. If multiple elements are in the group, then they are overlapping, at least transitively.
-<!-- <span style="color: red;"> each other transitively (badly worded?)</span>. -->
 After making this matching, we can compute the number of objects and galaxies per group, as shown in {numref}`fig-nm-groups`.
 
 ```{figure} ./assets/plots/detect_counts_cbar_on_bottom_vertical.png
 :name: fig-nm-groups
 :alt: N-M groups
-:width: 80%
+:width: 90%
 
 Result of the cross-matching of catalogs LSST-Euclid and LSST-HST using FoF+EOT matching method. Each bin in the 2D histogram represents a group for a given number of objects, meaning LSST detections in columns and galaxies, meaning Euclid detections (top) or HST detections (bottom) in rows. The colorbar indicates the number count of groups in each bin.
 ```
@@ -83,45 +79,53 @@ S_\text{b} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \ge 0 \q
 
 $p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is the intersection-over-union of the two ellipses: the area they share divided by the area they cover together from 0 (disjoint) to 1 (identical). It is also normalized per object so that $\sum_{\text{g}\in\text{gal}}p_\text{og} = 1$. Systems with one object and one galaxy have a matching probability of 1 and a blending entropy of 0. The blending entropy ranges from 0, meaning no ambiguity, to log(N), meaning maximum ambiguity with N being the number of galaxies in the group.
 
-```{figure} ./assets/low_blending_entropy.png
-:alt: Low Sb
-
-Low $S_\text{b}$ blend.
-```
-
-```{figure} ./assets/low_blending_entropy.png
+```{figure} ./assets/high_blending_entropy.png
+:name: fig-high-sb-image
 :alt: High Sb
 
-High $S_\text{b}$ blend.
+Example of a high $S_\text{b}$ blend. Top: LSST cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Bottom: Euclid VIS. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-<!-- **those are dp1 image, make dp2 images** -->
+{numref}`fig-high-sb-image` shows an example of a high blending entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making it ambiguous to which galaxy it is associated.
+The blending entropy for this system is $S_b = 0.69$.
 
-However, the blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $r i z$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
+```{figure} ./assets/low_blending_entropy.png
+:name: fig-low-sb-image
+:alt: Low Sb
+
+Example of a low $S_\text{b}$ blend.Top: LSST cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Bottom: Euclid VIS. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
+```
+
+Conversely, {numref}`fig-low-sb-image` shows an example of a low blending entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is well associated with the first Euclid detection making it unambiguous to which galaxy it is associated.
+The blending entropy for this system is $S_b = 0.09$.
+
+**those are dp1 image, make dp2 images and vertical**
+
+The blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $gri$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
 
 For Euclid, we use the following fit on the colors defined as:
 
 $$
-\mathrm{VIS}_{\mathrm{fit}} = r_{\mathrm{term}} + c_{g-r} \cdot (g - r) + c_{r-i} \cdot (r - i)
+\mathrm{VIS}_{\mathrm{fit}} = r_{\mathrm{term}} + c_{g-r} \cdot (g - r) + c_{r-i} \cdot (r - i) + c_{i-z} \cdot (i - z)
 $$
 
 We decided to define $r_{\mathrm{term}}$ as a piecewise linear function of $r$:
 
-- If $ r \leq 22 $\,:
+- If $ r \leq 22 $:
   $r_{\mathrm{term}} = a_0^{\mathrm{low}} + c_r^{\mathrm{low}} \cdot r$
 
 - If $ r > 22 $: $\,r_{\mathrm{term}} = a_0^{\mathrm{high}} + c_r^{\mathrm{high}} \cdot r$
   where we define $a_0^{\mathrm{high}} = a_0^{\mathrm{low}} + (c_r^{\mathrm{low}} - c_r^{\mathrm{high}}) \cdot 22$ to ensure continuity at $r = 22$.
 
+The fitted coefficients are:
 
-From the output, the fitted coefficients are:
-
-- $ a_0^{\text{low}} = 5.63488985 $
-- $ a_0^{\text{high}} = 3.943983072 $
-- $c_r^{\mathrm{low}} = 0.816332713$
-- $c_r^{\mathrm{high}} = 0.893192112$
-- $c_{g-r} = 0.00524349462$
-- $c_{r-i} = -0.874038224$
+- $ a_0^{\text{low}} = 5.66629780 $
+- $ a_0^{\text{high}} = 3.97249087 $
+- $c_r^{\mathrm{low}} = 0.814976209$
+- $c_r^{\mathrm{high}} = 0.891967433$
+- $c_{g-r} = 0.00516430123$
+- $c_{r-i} = -0.873242388$
+- $c_{i-z} = -0.00569483576$
 
 ```{figure} ./assets/plots/visfit_vs_vis.png
 :name: fig-visfit
@@ -134,7 +138,7 @@ Verification of the VIS fit. The x-axis is the measured VIS magnitude from Eucli
 For HST, we use the following fit on the $i$-band defined as:
 $\mathrm{F814W}_{\mathrm{pred}} = c_0 + c_{i} \cdot i$
 
-From the output, the fitted coefficients are:
+The fitted coefficients are:
 - $ c_0 = -1.249 $
 - $ c_i = 1.005 $
 
@@ -165,7 +169,7 @@ Top: Distribution of detection magnitudes for LSST (blue), Euclid (orange) and H
 
 
 ```{figure} ./assets/plots/dp2_high_sb_unrec.png
-:name: fig-high-sb
+:name: fig-high-sb-unrec
 :alt: Fraction of high Sb blends as a function of i-band magnitude
 :width: 100%
 
@@ -178,4 +182,4 @@ Fraction of high $S_b$ blends as a function of the i-band magnitude of LSST. The
 ```{bibliography}
 ```
 
-See the [Documenteer documentation](https://documenteer.lsst.io/technotes/index.html) for tips on how to write and configure your new technote.
+
