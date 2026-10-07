@@ -6,9 +6,15 @@ Unrecognized blends, where the number of detected objects is smaller than the nu
 
 ## Data
 <!-- ECDFS | LSST DP1 and DP2 (what changes between the two) | Euclid Q1 | HST -->
-The Extended Chandra Deep Field South (ECDFS) is a deep-sky survey field that has been observed by multiples telescopes at different wavelengths due to its low galactic obscuration {cite}`Lehmer05`. The LSST Data Preview 1 (DP1) {cite}`RTN-095` and Data Preview 2 (DP2) {cite}`RTN-115` both cover the ECDFS field.
+<!-- The Extended Chandra Deep Field South (ECDFS) is a deep-sky survey field that has been observed by multiples telescopes at different wavelengths due to its low galactic obscuration {cite}`Lehmer05`. The LSST Data Preview 1 (DP1) {cite}`RTN-095` and Data Preview 2 (DP2) {cite}`RTN-115` both cover the ECDFS field.
 
-The LSST DP datasets both have a pixel scale of 0.2 arcsec/pixel while the Euclid Q1 data has a pixel scale of 0.1 arcsec/pixel and HST has a pixel scale of 0.05 arcsec/pixel.
+The LSST DP datasets both have a pixel scale of 0.2 arcsec/pixel while the Euclid Q1 data has a pixel scale of 0.1 arcsec/pixel and HST has a pixel scale of 0.05 arcsec/pixel. -->
+
+
+
+The Extended Chandra Deep Field South (ECDFS) is a deep-sky survey field that has been observed by many telescopes at different wavelengths due to its low galactic obscuration {cite}`Lehmer05`. In this note we use imaging of the ECDFS from three facilities.
+
+- **Rubin LSST:** Rubin Observatory's Data Previews are early releases that precede LSST Data Release 1. Data Preview 1 (DP1) {cite}`RTN-095` is based on commissioning observations from the LSST Commissioning Camera (LSSTCam's smaller predecessor, ComCam) and includes ECDFS among its fields. Data Preview 2 (DP2) {cite}`RTN-115` is the first preview based entirely on data from the full LSST Science Camera (LSSTCam) and also covers the ECDFS. Both have a pixel scale of 0.2 arcsec/pixel. To access the LSST DP2 data, we use the Rubin Science Platform (RSP) and the `butler` API to access the data. The following parameters are used to specify the repository, collection, skymap, and catalog:
 
 ```python
 repo='dp2_prep'
@@ -16,6 +22,10 @@ collection = 'LSSTCam/runs/DRP/DP2/v30_0_8/DM-55060/stage3'
 skymap = 'lsst_cells_v2'
 butler_cat = 'object'
 ```
+- **Euclid Q1:** The Euclid Quick Data Release 1 (Q1) {cite}`EuclidQ1` is an early release of Euclid imaging and spectroscopy over ~63 deg² in the three Euclid Deep Fields, one of which is the ECDFS. We use the VIS optical imaging which has a pixel scale of 0.1 arcsec/pixel.  We use the final MER (MERge) catalog from Euclid Q1, which merges the VIS and NISP space-based imaging with external ground-based data to produce the combined multi-band source catalog.
+- **HST:** The Hubble Space Telescope {cite}`HSTref` has also imaged the ECDFS, we use these data as high-resolution imaging with a pixel scale of 0.06 arcsec/pixel. We use the Hubble Legacy Fields (HLF) GOODS-South source catalog, which is a high-level science product derived from archival HST imaging.
+
+
 <!-- `LSSTCam/runs/DRP/DP2/v30_0_8/DM-55060/stage3` -->
 
 <!-- For LSST DP, point-like sources are removed with `i_extendedness == 1`. -->
@@ -35,8 +45,8 @@ Bottom: One tenth of the detected galaxies in the ECDFS observed by LSST, Euclid
 | LSST DP2 data inside footprint | n/a | 2,416,305 | 33,240 |
 | Area $\left\lbrack\mathrm{deg}^2\right\rbrack$ | 43.35 | 15.53 | 0.18 | -->
 
-The Euclid footprint has an area of ~$15.53 \, \mathrm{deg}^2$ and contains a total of 5,328,489 galaxies detected in the VIS band and, in that same footprint there are 2,416,305 objects detected in the LSST DP2 dataset.\
-In the HST footprint of area ~$0.18 \, \mathrm{deg}^2$ there is a total of 165,776 galaxies detected in the F814W band and, in that same footprint there are 33,240 objects detected in the LSST DP2 dataset.
+The Euclid ECDFS footprint has an area of ~15.53 deg$^2$ and contains a total of 5,328,489 galaxies detected in the VIS band and, in that same footprint, there are 2,416,305 objects detected in the LSST DP2 dataset.\
+The HST ECDFS footprint has of area 0.18 deg$^2$ and contains a total of 165,776 galaxies detected in the F814W band and, in that same footprint, there are 33,240 objects detected in the LSST DP2 dataset.
 
 In the following sections, we will refer as `objects` the sources detected in the LSST DP datasets and as `galaxies` the sources detected in the Euclid and HST datasets. We will also refer to `blends` as the objects that are associated with more than one galaxy. Moreover, the plots shown, unless stated otherwise, are for the LSST DP2 dataset. The results for the LSST DP1 dataset are similar and can be found in the Appendix of this technote.
 
@@ -68,7 +78,7 @@ We call unrecognized blends the groups having more galaxies than objects which c
 For each object detected in the LSST DP, we can assign it a blendy entropy score {cite}`Ramel26` which quantifies how ambiguous its galaxy association is. The blending entropy for a given wavelength band is defined as:
 
 ```{math}
-S_\text{b} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \quad \text{with} \quad p_\text{og} \propto \left\langle \text{o},\text{g} \right\rangle \exp\left(-\left|  m_\text{o}-m_\text{g}\right|\right)
+S_\text{b} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \ge 0 \quad \text{with} \quad p_\text{og} \propto \left\langle \text{o},\text{g} \right\rangle \exp\left(-\left|  m_\text{o}-m_\text{g}\right|\right)
 ```
 
 $p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is the intersection-over-union of the two ellipses: the area they share divided by the area they cover together from 0 (disjoint) to 1 (identical). It is also normalized per object so that $\sum_{\text{g}\in\text{gal}}p_\text{og} = 1$. Systems with one object and one galaxy have a matching probability of 1 and a blending entropy of 0. The blending entropy ranges from 0, meaning no ambiguity, to log(N), meaning maximum ambiguity with N being the number of galaxies in the group.
@@ -87,21 +97,20 @@ High $S_\text{b}$ blend.
 
 <!-- **those are dp1 image, make dp2 images** -->
 
-However, the blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid $\mathrm{VIS}$ band and the HST $\mathrm{F814W}$ band and making a fit to be able to compare them. We chose to construct a fit on the following bands $r i z$ and $\mathrm{VIS}$ for the LSST-Euclid comparison and $i$ and $\mathrm{F814W}$ for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their <span style="color: red;"> photometry is cleaner than multiple-to-one systems</span> and then applied to every object in the LSST DP datasets.
+However, the blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $r i z$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
 
 For Euclid, we use the following fit on the colors defined as:
 
 $$
-\mathrm{VIS}_{\mathrm{fit}} = r_{\mathrm{term}} + (c_{g-r} \cdot (g - r)) + (c_{r-i} \cdot (r - i))
+\mathrm{VIS}_{\mathrm{fit}} = r_{\mathrm{term}} + c_{g-r} \cdot (g - r) + c_{r-i} \cdot (r - i)
 $$
 
-Since $\mathrm{VIS} \, \text{vs} \, r$ is linear by piece, we defined $r_{\mathrm{term}}$ as a piecewise linear function of $r$:
+We decided to define $r_{\mathrm{term}}$ as a piecewise linear function of $r$:
 
 - If $ r \leq 22 $\,:
   $r_{\mathrm{term}} = a_0^{\mathrm{low}} + c_r^{\mathrm{low}} \cdot r$
 
-- If $ r > 22 $:
-  $\,r_{\mathrm{term}} = a_0^{\mathrm{high}} + c_r^{\mathrm{high}} \cdot r$
+- If $ r > 22 $: $\,r_{\mathrm{term}} = a_0^{\mathrm{high}} + c_r^{\mathrm{high}} \cdot r$
   where we define $a_0^{\mathrm{high}} = a_0^{\mathrm{low}} + (c_r^{\mathrm{low}} - c_r^{\mathrm{high}}) \cdot 22$ to ensure continuity at $r = 22$.
 
 
@@ -123,7 +132,7 @@ Verification of the VIS fit. The x-axis is the measured VIS magnitude from Eucli
 ```
 
 For HST, we use the following fit on the $i$-band defined as:
-$\mathrm{F814W}_{\mathrm{pred}} = c_0 + (c_{i} \cdot i)$
+$\mathrm{F814W}_{\mathrm{pred}} = c_0 + c_{i} \cdot i$
 
 From the output, the fitted coefficients are:
 - $ c_0 = -1.249 $
@@ -138,13 +147,31 @@ Verification of the F814W fit. The x-axis is the measured F814W magnitude from H
 ```
 
 {numref}`fig-visfit` and {numref}`fig-hstfit` show that the fits are <span style="color: red;"> good enough </span> to be used for the blending entropy computation.
+We can then compute the blending entropy for each object in the LSST DP datasets for either Euclid, using the VIS fit from the $riz$ bands or HST, using the F814W fit from the $i$ band.
 
 
 ## Results
 
-<!-- ![[./assets/dp2_unrec_frac_and_mag.pdf]] -->
+```{figure} ./assets/plots/unrec_frac_and_mag.png
+:name: fig-unrec-frac
+:alt: Fraction of unrecognized blends as a function i-band magnitude
+:width: 100%
 
-![Fraction of unrecognized blends](./assets/plots/unrec_frac_and_mag.png)
+Top: Distribution of detection magnitudes for LSST (blue), Euclid (orange) and HST (green) in ECDFS. Since the observation bands of these telescopes do not cover the same wavelength ranges, a fit was made to compare them consistently using the LSST i-band as a reference. Bottom: Fraction of unrecognized blends as a function of magnitude in LSST DP2 with either Euclid or HST as the ground truth.
+```
+
+{numref}`fig-unrec-frac` shows that the HST observations are much deeper than those of the LSST and Euclid surveys. This explains the higher fraction of unrecognized blends for all magnitudes for HST: in these cases, objects detected as a single object by LSST are actually composed of one very bright object and another that is much fainter which HST detects but Euclid does not hence the discrepancy.
+<!-- We can therefore assume that blends with HST as the ground truth are less problematic than those with Euclid, since the secondary object of is significantly less luminous. -->
+
+
+```{figure} ./assets/plots/dp2_high_sb_unrec.png
+:name: fig-high-sb
+:alt: Fraction of high Sb blends as a function of i-band magnitude
+:width: 100%
+
+Fraction of high $S_b$ blends as a function of the i-band magnitude of LSST. The "$S_b$ all" values are the same as {numref}`fig-unrec-frac` since no cut has been made.
+```
+
 
 ## References
 
