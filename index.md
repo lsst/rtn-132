@@ -119,13 +119,13 @@ We decided to define $r_{\mathrm{term}}$ as a piecewise linear function of $r$:
 
 The fitted coefficients are:
 
-- $ a_0^{\text{low}} = 5.66629780 $
-- $ a_0^{\text{high}} = 3.97249087 $
-- $c_r^{\mathrm{low}} = 0.814976209$
-- $c_r^{\mathrm{high}} = 0.891967433$
-- $c_{g-r} = 0.00516430123$
-- $c_{r-i} = -0.873242388$
-- $c_{i-z} = -0.00569483576$
+- $ a_0^{\text{low}} = 5.666 $
+- $ a_0^{\text{high}} = 3.972 $
+- $c_r^{\mathrm{low}} = 0.8145$
+- $c_r^{\mathrm{high}} = 0.892$
+- $c_{g-r} = 0.005$
+- $c_{r-i} = -0.873$
+- $c_{i-z} = -0.006$
 
 ```{figure} ./assets/plots/visfit_vs_vis.png
 :name: fig-visfit
@@ -150,7 +150,7 @@ The fitted coefficients are:
 Verification of the F814W fit. The x-axis is the measured F814W magnitude from HST and the y-axis is the predicted F814W magnitude from the LSST DP2 photometry. The colorbar indicates the number count of objects in each bin. The red line is the $x=y$ line.
 ```
 
-{numref}`fig-visfit` and {numref}`fig-hstfit` show that the fits are <span style="color: red;"> good enough </span> to be used for the blending entropy computation.
+{numref}`fig-visfit` and {numref}`fig-hstfit` show that the fits provide a reasonable approximation of the Euclid VIS and HST F814W magnitudes from the LSST DP2 photometry, allowing them to be used for the blending entropy computation.
 We can then compute the blending entropy for each object in the LSST DP datasets for either Euclid, using the VIS fit from the $riz$ bands or HST, using the F814W fit from the $i$ band.
 
 
