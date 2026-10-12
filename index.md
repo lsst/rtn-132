@@ -13,11 +13,11 @@ Unrecognized blends, where the number of detected objects is smaller than the nu
 The LSST DP datasets both have a pixel scale of 0.2 arcsec/pixel while the Euclid Q1 data has a pixel scale of 0.1 arcsec/pixel and HST has a pixel scale of 0.05 arcsec/pixel. -->
 
 
-Blending, where multiple sources overlap in the sky, is expected to be a significant source of measurement uncertainties in the Stage-IV surveys like LSST {cite}`Melchior21`. A way to study blending is to compare data from different telescopes with different resolutions and depths.
+Blending, where multiple sources overlap in the sky, is expected to be a significant source of uncertainties for Stage-IV, ground-based surveys like LSST {cite}`Melchior21`. A way to study blending is to compare data from different telescopes with different resolutions and depths.
 
 The Extended Chandra Deep Field South (ECDFS) is a deep-sky survey field that has been observed by many telescopes at different wavelengths due to its low galactic obscuration {cite}`Lehmer05`. In this note we use imaging of the ECDFS from three facilities.
 
-- **Rubin LSST:** Rubin Observatory's Data Previews are early releases that precede LSST Data Release 1. Data Preview 1 (DP1) {cite}`RTN-095` is based on commissioning observations from the LSST Commissioning Camera (LSSTCam's smaller predecessor, ComCam) and includes ECDFS among its fields. Data Preview 2 (DP2) {cite}`RTN-115` is the first preview based entirely on data from the full LSST Science Camera (LSSTCam) and also covers the ECDFS. Both have a pixel scale of 0.2 arcsec/pixel. To access the LSST DP2 data, we use the Rubin Science Platform (RSP) and the `butler` API to access the data. The following parameters are used to specify the repository, collection, skymap, and catalog:
+- **Rubin LSST:** Rubin Observatory's Data Previews are early releases that precede LSST Data Release 1. Data Preview 1 (DP1) {cite}`RTN-095` is based on commissioning observations from the LSST Commissioning Camera (LSSTCam's smaller predecessor, ComCam) and includes ECDFS among its fields. Data Preview 2 (DP2) {cite}`RTN-115` is the first preview based entirely on data from the full LSST Science Camera (LSSTCam) and also covers the ECDFS. Both have a pixel scale of 0.2 arcsec/pixel. To access the LSST DP2 data, we use the Rubin Science Platform (RSP) and the `butler` API. The following parameters are used to specify the repository, collection, skymap, and catalog:
 
 ```python
 repo='dp2_prep'
@@ -25,8 +25,8 @@ collection = 'LSSTCam/runs/DRP/DP2/v30_0_8/DM-55060/stage3'
 skymap = 'lsst_cells_v2'
 butler_cat = 'object'
 ```
-- **Euclid Q1:** The Euclid Quick Data Release 1 (Q1) {cite}`EuclidQ1` is an early release of Euclid imaging and spectroscopy over ~63 deg² in the three Euclid Deep Fields, one of which is the ECDFS. We use the VIS optical imaging which has a pixel scale of 0.1 arcsec/pixel.  We use the final MER (MERge) catalog from Euclid Q1, which merges the VIS and NISP space-based imaging with external ground-based data to produce the combined multi-band source catalog.
-- **HST:** The Hubble Space Telescope has also imaged the ECDFS {cite}`HSTref`, we use these data as high-resolution imaging with a pixel scale of 0.06 arcsec/pixel. We use the Hubble Legacy Fields (HLF) GOODS-South source catalog, which is a high-level science product derived from archival HST imaging.
+- **Euclid Q1:** The Euclid Quick Data Release 1 (Q1) {cite}`EuclidQ1` is an early release of Euclid imaging and spectroscopy over ~63 deg² in three Euclid Deep Fields, one of which is ECDFS. We use VIS optical imaging which has a pixel scale of 0.1 arcsec/pixel.  We use the final MER (MERge) catalog from Euclid Q1, which merges the VIS and NISP space-based imaging with external ground-based data to produce the combined multi-band source catalog.
+- **HST:** The Hubble Space Telescope also imaged the ECDFS {cite}`HSTref`, providing high-resolution imaging with a pixel scale of 0.06 arcsec/pixel. We use the Hubble Legacy Fields (HLF) GOODS-South source catalog, which is a high-level science product derived from archival HST imaging.
 
 ```{figure} ./assets/plots/bandpasses.png
 :name: fig-bandpasses
@@ -44,14 +44,14 @@ The data on ECDFS also matches spatially, as shown in {numref}`fig-ecdfs`. The L
 :alt: ECDFS
 :width: 100%
 
-Top: One tenth of the detected galaxies in the ECDFS observed by LSST. The blue region corresponds to our region of study we chose this region to not have the single visits effects (lower magnitude detections and artifacts). The grey region is discarded due to the presence of single visits. The circle discrimnating the two regions has a radius on the sky of  2.1 degrees and centered around the coordinates RA=53.05, Dec=-28.15 degrees.
+Top: One tenth of the detected galaxies in the ECDFS observed by LSST. The blue region corresponds to our region of study, chosen to avoid single visits effects (lower magnitude detections and artifacts). The grey region is discarded due to the presence of single visits. The circle discriminating the two regions has a radius on the sky of  2.1 degrees and centered around the coordinates RA=53.05, Dec=-28.15 degrees.
 Bottom: One tenth of the detected galaxies in the ECDFS observed by LSST, Euclid and HST.
 ```
 
 The Euclid ECDFS footprint has an area of ~15.53 deg$^2$ and contains a total of 5,328,489 galaxies detected in the VIS band and, in that same footprint, there are 2,416,305 objects detected in the LSST DP2 dataset.\
 The HST ECDFS footprint has of area 0.18 deg$^2$ and contains a total of 165,776 galaxies detected in the F814W band and, in that same footprint, there are 33,240 objects detected in the LSST DP2 dataset.
 
-In the following sections, we will refer as `objects` the sources detected in the LSST DP datasets and as `galaxies` the sources detected in the Euclid and HST datasets. We will also refer to `blends` as the objects that are associated with more than one galaxy. Moreover, the plots shown, unless stated otherwise, are for the LSST DP2 dataset. The results for the LSST DP1 dataset are similar and can be found in the Appendix of this technote.
+In the following sections, we will refer to sources detected in the LSST DP datasets as `objects` and to sources detected in the Euclid and HST datasets as (reference) `galaxies`. We will also refer to `blends` as the objects that are associated with more than one galaxy. Moreover, the plots shown, unless stated otherwise, are for the LSST DP2 dataset. The results for the LSST DP1 dataset are similar and can be found in the Appendix of this technote.
 
 ## Methods
 
