@@ -28,10 +28,16 @@ butler_cat = 'object'
 - **Euclid Q1:** The Euclid Quick Data Release 1 (Q1) {cite}`EuclidQ1` is an early release of Euclid imaging and spectroscopy over ~63 deg² in the three Euclid Deep Fields, one of which is the ECDFS. We use the VIS optical imaging which has a pixel scale of 0.1 arcsec/pixel.  We use the final MER (MERge) catalog from Euclid Q1, which merges the VIS and NISP space-based imaging with external ground-based data to produce the combined multi-band source catalog.
 - **HST:** The Hubble Space Telescope has also imaged the ECDFS {cite}`HSTref`, we use these data as high-resolution imaging with a pixel scale of 0.06 arcsec/pixel. We use the Hubble Legacy Fields (HLF) GOODS-South source catalog, which is a high-level science product derived from archival HST imaging.
 
+```{figure} ./assets/plots/bandpasses.png
+:name: fig-bandpasses
+:alt: bandpasses
+:width: 100%
 
-<!-- `LSSTCam/runs/DRP/DP2/v30_0_8/DM-55060/stage3` -->
+Bandpasses of the LSST, Euclid and HST filters used in this study.
+```
+As shown in {numref}`fig-bandpasses`, the LSST, Euclid and HST filters used in this study cover overlapping wavelength ranges. The LSST $riz$ bands are the closest to the Euclid VIS band and the LSST $i$ band is the closest to the HST F814W band.
 
-<!-- For LSST DP, point-like sources are removed with `i_extendedness == 1`. -->
+The data on ECDFS also matches spatially, as shown in {numref}`fig-ecdfs`. The LSST DP2 and Euclid footprints covers the entire ECDFS field, while the HST footprint covers a smaller area within the ECDFS. There are some single visits that are still present in the LSST DP2 data which can lead to lower magnitude detections and artifacts. To avoid these effects we chose to restrain the LSST data to a circular region of radius 2.1 degrees centered around the coordinates RA=53.05, Dec=-28.15 degrees, which is free of single visits.
 
 ```{figure} ./assets/plots/ecdfs_two_panel_vertical.png
 :name: fig-ecdfs
@@ -62,7 +68,7 @@ After making this matching, we can compute the number of objects and galaxies pe
 ```{figure} ./assets/plots/detect_counts_cbar_on_bottom_vertical.png
 :name: fig-nm-groups
 :alt: N-M groups
-:width: 90%
+:width: 75%
 
 Result of the cross-matching of catalogs LSST-Euclid and LSST-HST using FoF+EOT matching method. Each bin in the 2D histogram represents a group for a given number of objects, meaning LSST detections in columns and galaxies, meaning Euclid detections (top) or HST detections (bottom) in rows. The colorbar indicates the number count of groups in each bin.
 ```
