@@ -171,18 +171,10 @@ We can then compute the blending entropy for each object in the LSST DP datasets
 Top: Distribution of detection magnitudes for LSST (blue), Euclid (orange) and HST (green) in ECDFS. Since the observation bands of these telescopes do not cover the same wavelength ranges, a fit was made to compare them consistently using the LSST i-band as a reference. Middle: Fraction of unrecognized blends as a function of magnitude in LSST DP2 with either Euclid or HST as reference space-based data. Bottom: Fraction of high $S_b$ blends in LSST DP2 with either Euclid or HST as reference space-based data.
 ```
 
-{numref}`Fig. %s-a) <fig-unrec-frac>` shows that the HST observations are much deeper than those of the LSST and Euclid surveys. This explains the discrepancy in the {numref}`Fig. %s-b) <fig-unrec-frac>` with the higher fraction of unrecognized blends for all magnitudes for HST: in these cases, objects detected as a single object by LSST are actually composed of one very bright object and another that is much fainter which HST detects but Euclid does not. Moreover, the fraction of unrecognized blends increases with magnitude for both Euclid and HST, as expected since fainter objects are more likely to be blended. This trend fails starting at 23.5 $i$-magnitude when using Euclid as the reference, we interpret this as the intrumental limitation of Euclid where it cannot detect the fainter object of the blend. The fraction of unrecognized blends goes above 20% for Euclid, which is consistent with the results reported by {cite:authors}`SITCOMTN-128`.
+{numref}`Fig. %s-a) <fig-unrec-frac>` shows that the HST observations are much deeper than those of the LSST and Euclid surveys. This explains the discrepancy in the {numref}`Fig. %s-b) <fig-unrec-frac>` with the higher fraction of unrecognized blends for all magnitudes for HST: in these cases, objects detected as a single object by LSST are actually composed of one very bright object and another that is much fainter which HST detects but Euclid does not. Moreover, the fraction of unrecognized blends increases with magnitude for both Euclid and HST, as expected since fainter objects are more likely to be blended. This trend fails starting at 23.5 $i$-magnitude when using Euclid as the reference, we interpret this as the intrumental limitation of Euclid where it cannot detect the fainter object of the blend. The fraction of unrecognized blends goes above 20% for Euclid, which is consistent with the results reported by {cite:t}`SITCOMTN-128`.
+{numref}`Fig. %s-c) <fig-unrec-frac>` shows two cuts on the blending entropy. The first one, $S_b \ge 0.0$ removes all the 1-1 systems that, by definition, have a blending entropy of 0. The second one, $S_b \ge 0.2$ removes all the systems that have a low blending entropy and are therefore not ambiguous in their galaxy association. After making the $S_b \ge 0.2$, we find that 
 
 <!-- The middle plot would be equivalent to $S_b \ge 0$. -->
-
-<!--
-```{figure} ./assets/plots/dp2_high_sb_unrec.png
-:name: fig-high-sb-unrec
-:alt: Fraction of high Sb blends as a function of i-band magnitude
-:width: 100%
-
-Fraction of high $S_b$ blends as a function of the i-band magnitude of LSST. The "$S_b$ all" values are the same as {numref}`fig-unrec-frac` since no cut has been made.
-``` -->
 
 
 ## References
