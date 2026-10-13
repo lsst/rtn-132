@@ -80,10 +80,10 @@ We call unrecognized blends the groups having more galaxies than objects which c
 For each object detected in the LSST DP, we can assign it a blendy entropy score {cite}`Ramel26` which quantifies how ambiguous its galaxy association is. The blending entropy for a given wavelength band is defined as:
 
 ```{math}
-S_\text{b} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \ge 0 \quad \text{with} \quad p_\text{og} \propto \left\langle \text{o},\text{g} \right\rangle \exp\left(-\left|  m_\text{o}-m_\text{g}\right|\right)
+S_{\text{b},o} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \ge 0 \quad \text{with} \quad p_\text{og} \propto \left\langle \text{o},\text{g} \right\rangle \exp\left(-\left|  m_\text{o}-m_\text{g}\right|\right)
 ```
 
-$p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is the intersection-over-union of the two ellipses: the area they share divided by the area they cover together from 0 (disjoint) to 1 (identical). It is also normalized per object so that $\sum_{\text{g}\in\text{gal}}p_\text{og} = 1$. Systems with one object and one galaxy have a matching probability of 1 and a blending entropy of 0. The blending entropy ranges from 0, meaning no ambiguity, to log(N), meaning maximum ambiguity with N being the number of galaxies in the group.
+$p_\text{og}$ is the matching probability of object $o$ with a galaxy $g$, given by the intersection-over-union $\left\langle \text{o},\text{g} \right\rangle$ of the two ellipses --- the area they share divided by the area they cover together from 0 (disjoint) to 1 (identical) --- and weighted by their absolute difference in magnitude. It is also normalized per object so that $\sum_{\text{g}\in\text{gal}}p_\text{og} = 1$. Systems with one object and one galaxy have a matching probability of 1 and a blending entropy of 0. The blending entropy ranges from 0, meaning no ambiguity, to $\log N$, meaning maximum ambiguity with $N$ being the number of galaxies in the overlapping group.
 
 ```{figure} ./assets/high_blending_entropy.png
 :name: fig-high-sb-image
@@ -92,8 +92,8 @@ $p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is
 Example of a high $S_\text{b}$ blend. Top: LSST cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Bottom: Euclid VIS. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-{numref}`fig-high-sb-image` shows an example of a high blending entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making it ambiguous to which galaxy it is associated.
-The blending entropy for this system is $S_b = 0.69$.
+{numref}`fig-high-sb-image` shows an example of a high-blending-entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making its association to any of the two galaxies ambiguous.
+The blending entropy for this object is $S_b = 0.69$.
 
 ```{figure} ./assets/low_blending_entropy.png
 :name: fig-low-sb-image
@@ -102,12 +102,12 @@ The blending entropy for this system is $S_b = 0.69$.
 Example of a low $S_\text{b}$ blend.Top: LSST cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Bottom: Euclid VIS. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-Conversely, {numref}`fig-low-sb-image` shows an example of a low blending entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is well associated with the first Euclid detection making it unambiguous to which galaxy it is associated.
-The blending entropy for this system is $S_b = 0.09$.
+Conversely, {numref}`fig-low-sb-image` shows an example of a low-blending-entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is unambiguously associated with the first Euclid detection.
+The blending entropy for this object is $S_b = 0.09$.
 
 **those are dp1 image, make dp2 images and vertical**
 
-The blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $gri$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
+The blending entropy requires a comparison between magnitudes in a given band. Since the LSST DP datasets have been observed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $gri$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
 
 For Euclid, we use the following fit on the colors defined as:
 
