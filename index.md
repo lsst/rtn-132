@@ -55,7 +55,7 @@ Bottom: One tenth of the detected galaxies in the ECDFS observed by LSST, Euclid
 The Euclid ECDFS footprint has an area of ~15.53 deg$^2$ and contains a total of 5,328,489 galaxies detected in the VIS band and, in that same footprint, there are 2,416,305 objects detected in the LSST DP2 dataset.\
 The HST ECDFS footprint has of area 0.18 deg$^2$ and contains a total of 165,776 galaxies detected in the F814W band and, in that same footprint, there are 33,240 objects detected in the LSST DP2 dataset.
 
-In the following sections, we will refer to sources detected in the LSST DP datasets as `objects` and to sources detected in the Euclid and HST datasets as (reference) `galaxies`. We will also refer to `blends` as the objects that are associated with more than one galaxy. Moreover, the plots shown, unless stated otherwise, are for the LSST DP2 dataset. The results for the LSST DP1 dataset are similar and can be found in the Appendix of this technote.
+In the following sections, we will refer to sources detected in the LSST DP datasets as `objects` and to sources detected in the Euclid and HST datasets as (reference) `galaxies`. We will also refer to the objects that are associated with more than one reference galaxy as `blends`. Moreover, the plots shown, unless stated otherwise, are for the LSST DP2 dataset. The results for the LSST DP1 dataset are similar and can be found in the Appendix of this technote.
 
 ## Methods
 
@@ -63,10 +63,10 @@ In the following sections, we will refer to sources detected in the LSST DP data
 
 We match the sources detected in the LSST DP datasets with those from Euclid and HST using a two-step process:
 
-1. Friends-Of-Friends (FoF) catalog matching {cite}`FoFMatching`: Iteratively and transitively connecting "friends" pairs within a specified linking length and merging their associated groups. It starts with each object as its own group, then recursively merges groups if any member of one group is within the linking length of any member of another. The choice of linking length defines the scale of the resulting structures. We chose a linking length of 2 arcsec to make coarse groups.
-2. Ellipse Overlap Test (EOT): For each element (object/galaxy) in each group, we check if the ellipses (computed from the semi-major and semi-minor axes and the position angle of the detection) of the elements overlap with the ellipses of the other elements. If they do, we consider them as matched and keep them as a group. If there is no overlap, we split the group into two subgroups and repeat the process until all elements in each group have overlapping ellipses.
+1. Friends-Of-Friends (FoF) catalog matching {cite}`FoFMatching`: Iteratively and transitively connecting "friends" pairs within a specified linking length and merging their associated groups. It starts with each object as its own group, then recursively merges groups if any member of one group is within the linking length of any member of another. The choice of linking length defines the scale of the resulting structures. We chose a linking length of 2 arcsec to make coarse groups, where all elements are initially connected with each other.
+2. Ellipse Overlap Test (EOT): For each element (object/galaxy) in each group, we define an elliptic footprint computed from the semi-major and semi-minor axes and the position angle of the detection, accounting for the effect of the local LSST point spread function (PSF). Starting from densely connected FoF groups, we then test whether the ellipses of each pair of elements overlap. If there is no overlap between two elements, we remove their link. If non-overlapping subsets are found, we split the group into subgroups until all elements in each group have overlapping ellipses. We discard groups made of a single element (object or galaxy).
 
-Adding the EOT step after the FoF matching makes our matching independant from the linking length choice. The result of this matching is a set of groups where each groups contains one or more objects and one or more galaxies. If multiple elements are in the group, then they are overlapping, at least transitively.
+Adding the EOT step after the FoF matching makes our matching independent from the linking length choice, provided the linking length is large enough to capture all overlapping elements. The result of this matching is a set of groups where each groups contains one or more objects and one or more galaxies. If multiple elements are in the group, then they are overlapping, at least transitively.
 After making this matching, we can compute the number of objects and galaxies per group, as shown in {numref}`fig-nm-groups`.
 
 ```{figure} ./assets/plots/detect_counts_cbar_on_bottom_vertical.png
@@ -84,10 +84,10 @@ We call unrecognized blends the groups having more galaxies than objects which c
 For each object detected in the LSST DP, we can assign it a blendy entropy score {cite}`Ramel26` which quantifies how ambiguous its galaxy association is. The blending entropy for a given wavelength band is defined as:
 
 ```{math}
-\text{S}_\text{b} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \ge 0 \quad \text{with} \quad p_\text{og} \propto \left\langle \text{o},\text{g} \right\rangle \exp\left(-\left|  m_\text{o}-m_\text{g}\right|\right)
+S_{\text{b},o} = -\sum_{\text{g}\in\text{gal}} p_\text{og} \ln(p_\text{og}) \ge 0 \quad \text{with} \quad p_\text{og} \propto \left\langle \text{o},\text{g} \right\rangle \exp\left(-\left|  m_\text{o}-m_\text{g}\right|\right)
 ```
 
-$p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is the intersection-over-union of the two ellipses: the area they share divided by the area they cover together from 0 (disjoint) to 1 (identical). It is also normalized per object so that $\sum_{\text{g}\in\text{gal}}p_\text{og} = 1$. Systems with one object and one galaxy have a matching probability of 1 and a blending entropy of 0. The blending entropy ranges from 0, meaning no ambiguity, to log(N), meaning maximum ambiguity with N being the number of galaxies in the group.
+$p_\text{og}$ is the matching probability of object $o$ with a galaxy $g$, given by the intersection-over-union $\left\langle \text{o},\text{g} \right\rangle$ of the two ellipses --- the area they share divided by the area they cover together from 0 (disjoint) to 1 (identical) --- and weighted by their absolute difference in magnitude. It is also normalized per object so that $\sum_{\text{g}\in\text{gal}}p_\text{og} = 1$. Systems with one object and one galaxy have a matching probability of 1 and a blending entropy of 0. The blending entropy ranges from 0, meaning no ambiguity, to $\log N$, meaning maximum ambiguity with $N$ being the number of galaxies in the overlapping group.
 
 ```{figure} ./assets/high_sb_blend_lsst_euclid_hst.png
 :name: fig-high-sb-image
@@ -96,8 +96,8 @@ $p_\text{og}$ is the matching probability of object `o` with a galaxy `g`. It is
 Example of a high S{sub}`b` blend. Top: LSST DP2 cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Middle: Euclid VIS. Bottom: HST F814W. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-{numref}`fig-high-sb-image` shows an example of a high blending entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making it ambiguous to which galaxy it is associated.
-The blending entropy for this system is S{sub}`b` = 0.66.
+{numref}`fig-high-sb-image` shows an example of a high-blending-entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making its association to any of the two galaxies ambiguous.
+The blending entropy for this object is $S_b = 0.69$.
 
 ```{figure} ./assets/low_sb_blend_lsst_euclid_hst.png
 :name: fig-low-sb-image
@@ -106,10 +106,12 @@ The blending entropy for this system is S{sub}`b` = 0.66.
 Example of a low S{sub}`b` blend. Top: LSST DP2 cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Bottom: Euclid VIS. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-Conversely, {numref}`fig-low-sb-image` shows an example of a low blending entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is well associated with the first Euclid detection making it unambiguous to which galaxy it is associated.
-The blending entropy for this system is S{sub}`b` = 0.08.
+Conversely, {numref}`fig-low-sb-image` shows an example of a low-blending-entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is unambiguously associated with the first Euclid detection.
+The blending entropy for this object is $S_b = 0.09$.
 
-The blending entropy needs to computed for the same wavelength band. Since the LSST DP datasets have been obserbed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $gri$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
+**those are dp1 image, make dp2 images and vertical**
+
+The blending entropy requires a comparison between magnitudes in a given band. Since the LSST DP datasets have been observed in the $u g r i z y$ bands, we compute the blending entropy using the relevant amount of bands that are the closest to the Euclid VIS band and the HST F814W band and making a fit to be able to compare them. We chose to construct a fit on the following bands $gri$ and VIS for the LSST-Euclid comparison and $i$ and F814W for the LSST-HST comparison. The fit will be computed using solely the 1-1 systems since their photometry is cleaner than multiple-to-one systems and then applied to every object in the LSST DP datasets.
 
 For Euclid, we use the following fit on the colors defined as:
 
