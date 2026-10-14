@@ -46,7 +46,7 @@ The data on ECDFS also matches spatially, as shown in {numref}`fig-ecdfs`. The L
 ```{figure} ./assets/plots/ecdfs_two_panel_vertical.png
 :name: fig-ecdfs
 :alt: ECDFS
-:width: 100%
+:width: 80%
 
 Top: One tenth of the detected galaxies in the ECDFS observed by LSST. The blue region corresponds to our region of study, chosen to avoid single visits effects (lower magnitude detections and artifacts). The grey region is discarded due to the presence of single visits. The circle discriminating the two regions has a radius on the sky of  2.1 degrees and centered around the coordinates RA=53.05, Dec=-28.15 degrees.
 Bottom: One tenth of the detected galaxies in the ECDFS observed by LSST, Euclid and HST.
@@ -177,6 +177,18 @@ Top: Distribution of detection magnitudes for LSST (blue), Euclid (orange) and H
 {numref}`Fig. %s-a) <fig-unrec-frac>` shows that the HST observations are much deeper than those of the LSST and Euclid surveys. This explains the discrepancy in the {numref}`Fig. %s-b) <fig-unrec-frac>` with the higher fraction of unrecognized blends for all magnitudes for HST: in these cases, objects detected as a single object by LSST are actually composed of one very bright object and another that is much fainter which HST detects but Euclid does not. Moreover, the fraction of unrecognized blends increases with magnitude for both Euclid and HST, as expected since fainter objects are more likely to be blended. This trend fails at 23.5 $i$-magnitude when using Euclid as the reference, we interpret this as the intrumental limitation of Euclid where it cannot detect the fainter object of the blend. The fraction of unrecognized blends goes above 20% for Euclid, which is consistent with the results reported by {cite:t}`SITCOMTN-128`.
 {numref}`Fig. %s-c) <fig-unrec-frac>` shows the fraction of objects that have a higher blending entropy than the two cuts choosen. The first one, S{sub}`b` > 0.0 removes all the 1-1 systems that, by definition, have a blending entropy of 0. The second one, S{sub}`b` > 0.2 removes all the systems that have a low blending entropy and are therefore not ambiguous in their galaxy association (see the work reported by {cite:t}`Ramel26` for more justification on this cut value). After making the S{sub}`b` > 0.2, we find that the fraction of problematic blends (ambiguous match, high S{sub}`b`) is consistent between the two reference surveys until Euclid magnitude limit. This explains the discrepancy between the two curves in {numref}`Fig. %s-b) <fig-unrec-frac>` for $i$<23.5: the fraction of unrecognized blends is higher for HST because it detects more faint galaxies that are not detected by Euclid, but these blends are not ambiguous in their galaxy association, the LSST pipeline does detect the more luminous galaxy of the blend unambiguously.
 
+
+## Discussion
+
+<!-- 
+- mention the fact that image quality in DR1 is expected to be better htan in Dp2 so we expect (much) less blending
+- mention test on image quality in future studies
+- this will impact shear calibration for DESCf
+-->
+
+## Appendix
+
+<!-- coeffs fits -->
 
 ## References
 
