@@ -17,7 +17,7 @@ Unrecognized blends, where the number of detected objects is smaller than the nu
 The LSST DP datasets both have a pixel scale of 0.2 arcsec/pixel while the Euclid Q1 data has a pixel scale of 0.1 arcsec/pixel and HST has a pixel scale of 0.05 arcsec/pixel. -->
 
 
-Blending, where multiple sources overlap in the sky, is expected to be a significant source of uncertainties for Stage-IV, ground-based surveys like LSST {cite}`Melchior21`. A way to study blending is to compare data from different telescopes with different resolutions and depths.
+Blending, where multiple sources overlap in the sky, is expected to be a significant source of uncertainties for Stage-IV, ground-based surveys like LSST {cite}`Melchior21,Bosch18,Sanchez21`. A way to study blending is to compare data from different telescopes with different resolutions and depths.
 
 The Extended Chandra Deep Field South (ECDFS) is a deep-sky survey field that has been observed by many telescopes at different wavelengths due to its low galactic obscuration {cite}`Lehmer05`. In this note we use imaging of the ECDFS from three facilities.
 
@@ -59,6 +59,8 @@ In the following sections, we will refer to sources detected in the LSST DP data
 
 ## Methods
 
+The following pipeline is available at [https://github.com/LSSTDESC/copaings](https://github.com/LSSTDESC/copaings).
+
 ### Matching LSST DP catalogs with Euclid and HST
 
 We match the sources detected in the LSST DP datasets with those from Euclid and HST using a two-step process:
@@ -96,7 +98,7 @@ $p_\text{og}$ is the matching probability of object $o$ with a galaxy $g$, given
 Example of a high $S_\text{b}$ blend. Top: LSST DP2 cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Middle: Euclid VIS. Bottom: HST F775W. The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-{numref}`fig-high-sb-image` shows an example of a high-blending-entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making its association to any of the two galaxies ambiguous.
+{numref}`fig-high-sb-image` shows an example of a high blending entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making its association to any of the two galaxies ambiguous.
 The blending entropy for this object is $S_\text{b} = 0.66$.
 
 ```{figure} ./assets/low_sb_blend_lsst_euclid_hst.png
@@ -106,10 +108,10 @@ The blending entropy for this object is $S_\text{b} = 0.66$.
 Example of a low $S_\text{b}$ blend. Top: LSST DP2 cutout with $i,r,g$ bands corresponding to red, green and blue respectively. Middle: Euclid VIS. Bottom: HST F775W.  The object from the LSST detection is represented by the blue ellipse and the galaxies from the Euclid detections by the orange ellipses.
 ```
 
-Conversely, {numref}`fig-low-sb-image` shows an example of a low-blending-entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is unambiguously associated with the first Euclid detection.
+Conversely, {numref}`fig-low-sb-image` shows an example of a low blending entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other is only partially overlapping and has a lower magnitude. The LSST detection is unambiguously associated with the first Euclid detection.
 The blending entropy for this object is $S_\text{b} = 0.08$.
 
-The blending entropy requires comparing magnitudes measured in the same band. The LSST DP datasets were observed in the $u g r i z y$ bands, while Euclid and HST observe in the VIS and F814W bands. We therefore fit the VIS and F814W magnitudes from the closest LSST bands: the $griz$ bands for the LSST-Euclid comparison and the $i$ band for the LSST-HST comparison. The fits are computed using only 1-1 systems, since their photometry is cleaner than that of multiple-to-one systems. The fit is then applied to every object in the LSST DP datasets.
+The blending entropy requires comparing magnitudes measured in the same band. The LSST DP datasets are observations from $u g r i z y$ bands, while Euclid and HST observe in the VIS and F814W bands (cf. {numref}`fig-bandpasses`). We fit the VIS and F814W magnitudes from the closest LSST bands: the $griz$ bands for the LSST-Euclid comparison and the $i$ band for the LSST-HST comparison. The fit coefficients are computed using only 1-1 systems, since their photometry is cleaner than that of multiple-to-one systems. The fit is then applied to every object in the LSST DP datasets.
 
 
 For Euclid, we use the following fit on the colors defined as:

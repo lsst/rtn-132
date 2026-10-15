@@ -37,3 +37,19 @@ orcid = "https://orcid.org/0009-0003-2287-8244"
 [[technote.authors.affiliations]]
 name = "University of Cincinnati"
 ror = "https://ror.org/01e3m7079"
+[[technote.authors]]
+name = {given = "Prakruth", family = "Adari"}
+internal_id = "adarip"
+orcid = "https://orcid.org/0000-0001-9431-3806"
+[[technote.authors.affiliations]]
+name = "Stony Brook University"
+internal_id = "StonyBrookU"
+ror = "https://ror.org/05qghxh33"
+[[technote.authors]]
+name = {given = "Ismael", family = "Mendoza"}
+internal_id = "imendoza"
+orcid = "https://orcid.org/0000-0002-6313-4597"
+[[technote.authors.affiliations]]
+name = "University of Maryland"
+internal_id = "Maryland"
+ror = "https://ror.org/047s2c258"
