@@ -1,0 +1,7 @@
+{
+    "markdown.validate.enabled": true,
+    "markdownlint.config": {
+        "MD033": false
+    },
+    "makefile.configureOnOpen": false
+}
