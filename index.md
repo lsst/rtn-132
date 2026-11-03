@@ -101,10 +101,10 @@ Example of a low-$S_\text{b}$ blend. Top: LSST DP2 cutout with $i,r,g$ bands cor
 Conversely, {numref}`fig-low-sb-image` shows an example of a low-blending-entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other overlaps only partially and is more than one magnitude fainter. The LSST detection is therefore unambiguously associated with the brighter Euclid detection.
 The blending entropy for this object is $S_\text{b} = 0.08$.
 
-The blending entropy requires comparing magnitudes measured in the same band. The LSST DP datasets include observations in the $ugrizy$ bands, while Euclid and HST observe in the VIS and F814W bands ({numref}`fig-bandpasses`). We model the VIS and F814W magnitudes as functions of the closest LSST bands: the $griz$ bands for the LSST-Euclid comparison and the $i$ band for the LSST-HST comparison. The fit coefficients are computed using only one-to-one systems, since their photometry is cleaner than that of many-to-one systems. The fit is then applied to every object in the LSST DP datasets.
+The blending entropy compares the magnitude $m_\text{o}$ of each LSST object with the magnitudes $m_\text{g}$ of the reference galaxies, which requires both to be measured in the same band. Since Euclid and HST observe in the VIS and F814W bands, which have no exact LSST counterpart ({numref}`fig-bandpasses`), we predict for each LSST object its VIS or F814W magnitude from its LSST photometry, using the closest LSST bands: $griz$ for Euclid and $i$ for HST. The relation between the LSST magnitudes of an object and the measured VIS or F814W magnitude of its reference galaxy is fitted on one-to-one systems only, where both measurements refer to the same galaxy and the photometry is cleanest. This relation is then applied to every object in the LSST DP datasets, and the predicted magnitude is used as $m_\text{o}$ in the definition of $S_\text{b}$.
 
 
-For Euclid, we use the following fit, based on the colors:
+For Euclid, the predicted VIS magnitude depends on the $r$-band magnitude and on the $g-r$, $r-i$ and $i-z$ colors:
 
 $$
 \text{VIS}_{\text{fit}} = r_{\text{term}} + c_{g-r} \cdot (g - r) + c_{r-i} \cdot (r - i) + c_{i-z} \cdot (i - z)
@@ -118,7 +118,7 @@ We define $r_{\text{term}}$ as a piecewise linear function of $r$:
 - If $r > 22$: $\,r_{\text{term}} = a_0^{\text{high}} + c_r^{\text{high}} \cdot r$
   where we define $a_0^{\text{high}} = a_0^{\text{low}} + (c_r^{\text{low}} - c_r^{\text{high}}) \cdot 22$ to ensure continuity at $r = 22$.
 
-For HST, we use a linear fit to the $i$-band magnitude:
+For HST, the predicted F814W magnitude is a linear function of the $i$-band magnitude:
 $\text{F814W}_{\text{fit}} = c_0 + c_{i} \cdot i$
 
 The fitted coefficients are given in {ref}`appendix-fit-coeffs`.
@@ -131,31 +131,32 @@ The fitted coefficients are given in {ref}`appendix-fit-coeffs`.
 Verification of the VIS magnitude and F814W magnitude fits. Left: The x-axis is the measured VIS magnitude from Euclid and the y-axis is the predicted VIS magnitude from the LSST DP2 photometry. Right: The x-axis is the measured F814W magnitude from HST and the y-axis is the predicted F814W magnitude from the LSST DP2 photometry. The colorbar indicates the number of objects in each bin. The red line shows $x=y$.
 ```
 
-{numref}`fig-duo-fit` shows that the fits provide a reasonable approximation of the space-based magnitudes from the LSST DP2 photometry. For each object in the LSST DP datasets, we can therefore compute the blending entropy for either Euclid, using the VIS fit from the $griz$ bands, or HST, using the F814W fit from the $i$ band.
+{numref}`fig-duo-fit` shows that the fits provide a reasonable approximation of the space-based magnitudes from the LSST DP2 photometry. For each object in the LSST DP datasets, we can therefore compute the blending entropy with Euclid as the reference, using the VIS magnitude predicted from its $griz$ photometry, or with HST, using the F814W magnitude predicted from its $i$-band photometry.
 
 
 
 ## Results
 
-From the matching of the LSST DP2 catalog with the Euclid and HST catalogs, we can compute the fraction of objects that belong to blends as a function of magnitude. The $S_\text{b} > 0$ cut effectively removes objects with $S_\text{b} = 0$, which by definition of the blending entropy belong to one-to-one systems. We also compute the fraction of high-blending-entropy objects, which are those with $S_\text{b} > 0.2$, as a function of magnitude. This cut removes all systems whose galaxy association is unambiguous, leaving only problematic blends in the dataset. See {cite:t}`Ramel26` for a detailed justification of this threshold.
+From the matching of the LSST DP2 catalog with the Euclid and HST catalogs, we can compute the fraction of objects that belong to blends as a function of magnitude. Objects with $S_\text{b} > 0$ are associated with more than one galaxy, i.e. they are unrecognized blends; objects with $S_\text{b} = 0$ belong, by definition, to one-to-one systems. We also compute the fraction of ambiguous blends, defined as objects with $S_\text{b} > 0.2$. This cut removes all systems whose galaxy association is unambiguous, leaving only problematic blends in the dataset. See {cite:t}`Ramel26` for a detailed justification of this threshold.
 
 ```{figure} ./assets/plots/duo_plot_mag_highsb.png
 :name: fig-mag-highsb
 :alt: Fraction of unrecognized blends as a function of i-band magnitude
 :width: 100%
 
-a) Distribution of detection magnitudes for LSST (blue), Euclid (orange) and HST (green) in ECDFS. Since the observation bands of these telescopes do not cover the same wavelength ranges, the Euclid VIS and HST F814W magnitudes are converted to the LSST $i$ band with a dedicated fit, used only for this panel and distinct from the fits described in the Methods section. b) Fraction of high-$S_\text{b}$ blends in LSST DP2 with either Euclid or HST as reference space-based data.
+a) Distribution of detection magnitudes for LSST (blue), Euclid (orange) and HST (green) in ECDFS. Since the observation bands of these telescopes do not cover the same wavelength ranges, the Euclid VIS and HST F814W magnitudes are converted to the LSST $i$ band with a dedicated fit, used only for this panel and distinct from the fits described in the Methods section. b) Fraction of LSST DP2 objects with $S_\text{b} > 0$ (circles, unrecognized blends) and $S_\text{b} > 0.2$ (squares, ambiguous blends), with either Euclid or HST as reference space-based data.
 ```
 
 {numref}`Fig. %s-a) <fig-mag-highsb>` shows the magnitude distribution for each survey. We see that the HST observations are much deeper than both LSST and Euclid.
-{numref}`Fig. %s-b) <fig-mag-highsb>` shows the fraction of overlapping objects ($S_\text{b} > 0$) and the fraction of high-blending-entropy objects ($S_\text{b} > 0.2$) as a function of magnitude. The fraction of overlapping objects is higher for HST than for Euclid, which is expected since HST has a higher resolution and depth than Euclid. In these cases, single LSST objects often consist of a bright galaxy and a much fainter one that HST detects but Euclid does not. Moreover, the fraction of overlapping objects increases with magnitude for both Euclid and HST, as expected since fainter objects are more likely to be blended. This trend breaks down at $i \simeq 23.5$ with Euclid as the reference; we interpret this as Euclid's detection limit, beyond which it cannot detect the fainter object of the blend. The fraction of unrecognized blends exceeds 20% for Euclid, which is consistent with the results reported by {cite:t}`SITCOMTN-128` and {cite:t}`Troxel23`.
+{numref}`Fig. %s-b) <fig-mag-highsb>` shows the fraction of overlapping objects ($S_\text{b} > 0$) and the fraction of high-blending-entropy objects ($S_\text{b} > 0.2$) as a function of magnitude. The fraction of overlapping objects is higher for HST than for Euclid, which is expected since HST has a higher resolution and depth than Euclid. In these cases, single LSST objects often consist of a bright galaxy and a much fainter one that HST detects but Euclid does not. Moreover, the fraction of overlapping objects increases with magnitude for both Euclid and HST, as expected since fainter objects are more likely to be blended. This trend breaks down at $i \simeq 23.5$ with Euclid as the reference; we interpret this as a depth effect: for fainter LSST objects, the fainter galaxy of the blend increasingly falls below the Euclid detection limit. The fraction of unrecognized blends exceeds 20% for Euclid, which is consistent with the results reported by {cite:t}`SITCOMTN-128` and {cite:t}`Troxel23`.
 
-After applying the $S_\text{b}>0.2$ cut, we find that the fraction of problematic blends (those with an ambiguous match and therefore high $S_\text{b}$) is consistent between the two reference surveys up to the Euclid magnitude limit.
-This explains the discrepancy between the two curves in {numref}`Fig. %s-b) <fig-mag-highsb>` for $i < 23.5$: the fraction of unrecognized blends is higher for HST because it detects more faint galaxies that are not detected by Euclid, but these blends are not ambiguous in their galaxy association: the LSST detection is unambiguously associated with the brighter galaxy of the blend.
+After applying the $S_\text{b} > 0.2$ cut, the fractions of ambiguous blends obtained with the two reference surveys agree up to $i \simeq 23.5$, where 19% of DP2 objects are ambiguous blends with Euclid as the reference and 16% with HST. The difference between the two $S_\text{b} > 0$ curves at brighter magnitudes therefore comes from faint galaxies detected by HST but not by Euclid: the corresponding blends are not ambiguous, since the LSST detection is unambiguously associated with the brighter galaxy of the blend.
+
+In summary, the fraction of unrecognized blends in DP2 depends strongly on the depth and resolution of the reference survey, from 13.8% with Euclid to 38.7% with HST, but most of this difference comes from faint companions that do not make the galaxy association ambiguous. The fraction of ambiguous blends is, in contrast, robust to the choice of reference survey down to the Euclid depth limit, with about one in six DP2 objects being an ambiguous blend at $i \simeq 23.5$.
 
 ## Discussion
 
-In this technote, we matched LSST DP2 objects to Euclid Q1 and HST galaxies in the ECDFS with a FoF + EOT procedure and found that unrecognized blends make up 13.8% of objects when using Euclid as space-based reference data and 38.7% when using HST as reference. We used the blending entropy $S_\text{b}$ to show that the two reference surveys give consistent fractions of ambiguous blends up to the Euclid magnitude limit.
+In this technote, we matched LSST DP2 objects to Euclid Q1 and HST galaxies in the ECDFS with a FoF + EOT procedure and found that unrecognized blends make up 13.8% of objects when using Euclid as space-based reference data and 38.7% when using HST as reference. We used the blending entropy $S_\text{b}$ to show that the two reference surveys give consistent fractions of ambiguous blends down to $i \simeq 23.5$, where about one in six DP2 objects (16–19%) is an ambiguous blend.
 
 The blend fractions reported here apply to DP2 and should be regarded as an upper bound for later LSST data releases. The image quality in DR1 is expected to be significantly better than in DP2, which reduces the overlap between neighboring sources and should therefore yield lower unrecognized blend fractions {cite}`Bosch18,Sanchez21`.
 We are working on a follow-up study that repeats this analysis as a function of image quality to quantify directly how the blend fractions improve as the delivered image quality evolves.
