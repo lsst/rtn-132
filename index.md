@@ -95,7 +95,7 @@ Example of a high-$S_\text{b}$ blend. Upper left: LSST DP2 cutout with $i,r,g$ b
 ```
 
 {numref}`fig-high-sb-image` shows an example of a high-blending-entropy system with one object and two galaxies. The object overlaps with both galaxies and has a similar magnitude to both of them, making its association with either of the two galaxies ambiguous.
-The blending entropy for this object, with Euclid as the reference, is $S_\text{b} = 0.65$.
+The blending entropy for this object, with Euclid as the reference, is $S_\text{b} = 0.65$ and $S_\text{b} = 0.80$ with HST as the reference.
 
 ```{figure} ./assets/DR1_low_sb_blend_lsst_euclid_hst.png
 :name: fig-low-sb-image
@@ -105,7 +105,7 @@ Example of a low-$S_\text{b}$ blend. Upper left: LSST DP2 cutout with $i,r,g$ ba
 ```
 
 Conversely, {numref}`fig-low-sb-image` shows an example of a low-blending-entropy system with one object and two galaxies. One of the Euclid detections overlaps almost entirely with the LSST detection, while the other overlaps only partially and is more than one magnitude fainter. The LSST detection is therefore unambiguously matched with the brighter Euclid detection.
-The blending entropy for this object, with Euclid as the reference, is $S_\text{b} = 0.02$.
+The blending entropy for this object, with Euclid as the reference, is $S_\text{b} = 0.02$ and $S_\text{b} = 0.15$ with HST as the reference.
 
 The blending entropy compares the magnitude $m_\text{o}$ of each LSST object with the magnitudes $m_\text{g}$ of the reference galaxies, which requires both to be measured in the same band. Since Euclid and HST observe in the VIS and F814W bands, which have no exact LSST counterpart ({numref}`fig-bandpasses`), we predict for each LSST object its VIS or F814W magnitude from its LSST photometry, using the closest LSST bands: $griz$ for Euclid and $i$ for HST. The relation between the LSST magnitudes of an object and the measured VIS or F814W magnitude of its reference galaxy is fitted on one-to-one systems only, where both measurements refer to the same galaxy and the photometry is cleanest. This relation is then applied to every object in the LSST DP2 dataset, and the predicted magnitude is used as $m_\text{o}$ in the definition of $S_\text{b}$.
 
