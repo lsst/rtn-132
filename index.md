@@ -44,12 +44,11 @@ The datasets also overlap spatially in the ECDFS, as shown in {numref}`fig-ecdfs
 :alt: ECDFS
 :width: 90%
 
-Top: Sky density of LSST DP2 galaxies in the ECDFS field. The map shows all 3.6 million objects with `i_extendedness = 1`. the colour gives the number of galaxies per cell. The density drops in the shallower outer tracts.
+Top: Sky density of LSST DP2 galaxies in the ECDFS field. The map shows all 3.6 million objects with `i_extendedness = 1`. the colour gives the number of galaxies per cell. The density drops in the shallower outer tracts. The circle separating the two regions has a radius of 1.6 degrees and is centered on the coordinates RA=53.00, Dec=-28.15 degrees.
 Bottom: One tenth of the detected galaxies in the ECDFS observed by LSST, Euclid and HST.
 ```
-
-The Euclid ECDFS footprint has an area of 3.56 deg{sup}`2` and contains 1,469,382 galaxies detected in the VIS band and 682,780 objects detected in the LSST DP2 dataset.
-The HST ECDFS footprint has an area of 0.18 deg{sup}`2` and contains 165,776 galaxies detected in the F814W band and 33,240 objects detected in the LSST DP2 dataset.
+The Euclid ECDFS footprint has an area of 8.161 deg{sup}`2` and contains 3,804,671 galaxies detected in the VIS band, of which 1,999,739 have a counterpart in the LSST DP2 dataset.
+The HST ECDFS footprint has an area of 0.129 deg{sup}`2` and contains 118,612 galaxies detected in the F814W band, of which 47,657 have a counterpart in the LSST DP2 dataset.
 
 In the following sections, we will refer to sources detected in the LSST DP2 dataset as *objects* and to sources detected in the Euclid and HST datasets as (reference) *galaxies*. We call *unrecognized blends* the objects that belong to a matched group (see Methods) containing more reference galaxies than LSST objects: in such groups, LSST detected fewer sources than the space-based reference. More generally, we call *blends* the objects whose ellipse overlaps those of at least two reference galaxies, i.e. objects with a blending entropy $S_\text{b} > 0$.
 
@@ -143,7 +142,7 @@ Verification of the VIS magnitude and F814W magnitude fits. Left: The x-axis is 
 
 ## Results
 
-Integrated over all magnitudes, $16.1\%$ of the LSST–Euclid groups shown in {numref}`fig-nm-groups` contain more galaxies than LSST objects, i.e. contain unrecognized blends; this fraction is $38.7\%$ for the LSST–HST groups. Counted per object, $17.8\%$ of the 659,844 matched LSST objects are unrecognized blends with Euclid as the reference, and $46.8\%$ of the 22,369 with HST.
+Integrated over all magnitudes, $16.7\%$ of the LSST–Euclid groups shown in {numref}`fig-nm-groups` contain more galaxies than LSST objects, i.e. contain unrecognized blends; this fraction is $40.8\%$ for the LSST–HST groups. Counted per object, $18.2\%$ of the 1,656,027 matched LSST objects are unrecognized blends with Euclid as the reference, and $46.8\%$ of the 22,326 with HST.
 
 We now examine how blending depends on magnitude, and use the blending entropy to determine how ambiguous these blends are. To do so, we use the blending entropy computed for each LSST DP2 object. Objects with $S_\text{b} > 0$ overlap at least two galaxies and are therefore blends, while objects with $S_\text{b} = 0$ overlap a single galaxy. Among blends, we call *ambiguous blends* those with $S_\text{b} > 0.2$, i.e. whose galaxy association is ambiguous; see {cite:t}`Ramel26` for a detailed justification of this threshold. {numref}`fig-mag-highsb` shows the fractions of both populations as a function of LSST $i$-band magnitude.
 
