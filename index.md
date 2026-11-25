@@ -151,7 +151,7 @@ We now examine how blending depends on magnitude, and use the blending entropy t
 :alt: Fraction of blends and ambiguous blends as a function of i-band magnitude
 :width: 100%
 
-a) Distribution of detection magnitudes for LSST (blue), Euclid (orange) and HST (green) in ECDFS. Since the observation bands of these telescopes do not cover the same wavelength ranges, the Euclid VIS and HST F814W magnitudes are converted to the LSST $i$ band with a dedicated fit, used only for this panel and distinct from the fits described in the Methods section. b) Fraction of LSST DP2 objects with $S_\text{b} > 0$ (circles, blends) and $S_\text{b} > 0.2$ (squares, ambiguous blends), with either Euclid or HST as reference space-based data.
+a) Distribution of detection magnitudes for LSST (blue), Euclid (orange) and HST (green) in ECDFS. Since the observation bands of these telescopes do not cover the same wavelength ranges, the Euclid VIS and HST F814W magnitudes are converted to the LSST $i$ band with a dedicated fit, used only for this panel and distinct from the fits described in the Methods section. b) Fraction of LSST DP2 objects with $S_\text{b} > 0$ (circles, blends) and $S_\text{b} > 0.2$ (squares, ambiguous blends), with either Euclid or HST as reference space-based data. The error bars are 68% Wilson binomial confidence intervals.
 ```
 
 {numref}`Fig. %s-a) <fig-mag-highsb>` shows the magnitude distribution for each survey. The HST observations are much deeper than both LSST and Euclid.
