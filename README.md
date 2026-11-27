@@ -1,11 +1,11 @@
 [![Website](https://img.shields.io/badge/rtn--132-lsst.io-brightgreen.svg)](https://rtn-132.lsst.io)
 [![CI](https://github.com/lsst/rtn-132/actions/workflows/ci.yaml/badge.svg)](https://github.com/lsst/rtn-132/actions/workflows/ci.yaml)
 
-# Unrecognized blends in LSST DP1 and DP2 from the comparison with Euclid and HST
+# Unrecognized blends in LSST DP2 from the comparison with Euclid and HST
 
 ## RTN-132
 
-We estimate the fraction of unrecognized blends in DP1 and DP2 data from the comparison with Euclid and HST
+We estimate the fraction of unrecognized blends in DP2 data from the comparison with Euclid DR1 and HST
 
 **Links:**
 
